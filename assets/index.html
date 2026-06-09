@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form action="/register" method="POST">
+                <h1>アカウント作成</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+                <span>アカウント作成情報</span>
+                <input type="text" name="username" placeholder="Name">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form action="/login" method="POST">
+                <h1>ログイン</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+                <span>アカウントログイン情報</span>
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
+                <a href="#">パスワードを忘れましたか？</a>
+                <button type="submit">ログイン</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>おかえりなさい！</h1>
+                    <p>私たちはあなたの帰りを待っていました！ <br>
+                    再びアカウントにログインしサービスをお楽しみください</p>
+                    <button class="hidden" id="login">Sign Up</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>ようこそ！</h1>
+                    <p>私たちはあなたが来るのを待っていました！ <br>
+                    アカウントを作成しサービスをお楽しみください</p>
+                    <button class="hidden" id="register">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
