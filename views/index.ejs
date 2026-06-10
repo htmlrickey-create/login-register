@@ -29,7 +29,11 @@
                 <span>アカウント作成情報</span>
                 <input type="text" name="username" placeholder="Name">
                 <input type="email" name="email" placeholder="Email">
-                <input type="password" name="password" placeholder="Password">
+                <div class="password-box">
+                    <input type="password" name="password" id="signupPassword" placeholder="Password">
+                    <i class="fa-solid fa-eye password-toggle"
+                     data-target="signupPassword"></i>
+                </div>
                 <button type="submit">Sign Up</button>
             </form>
         </div>
@@ -52,7 +56,12 @@
                 </div>
                 <span>アカウントログイン情報</span>
                 <input type="email" name="email" placeholder="Email">
-                <input type="password" name="password" placeholder="Password">
+                <div class="password-box">
+                    <input type="password" name="password" id="loginPassword" placeholder="Password">
+
+                    <i class="fa-solid fa-eye password-toggle"
+                    data-target="loginPassword"></i>
+                </div>
                 <a href="#">パスワードを忘れましたか？</a>
                 <button type="submit">ログイン</button>
             </form>

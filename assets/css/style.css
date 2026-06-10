@@ -204,3 +204,28 @@ body{
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+
+.password-box{
+    position: relative;
+    width: 100%;
+}
+
+.password-box input{
+    width: 100%;
+    padding-right: 45px;
+}
+
+.password-toggle{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    cursor: pointer;
+    color: #777;
+}
+
+.password-toggle:hover{
+    color: #2563eb;
+}
+

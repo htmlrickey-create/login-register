@@ -1,0 +1,217 @@
+<html>
+<style>
+```css
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Yu Gothic UI", sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        #e0f2fe,
+        #dbeafe,
+        #bfdbfe
+    );
+}
+
+.container{
+    width: 100%;
+    max-width: 700px;
+    padding: 20px;
+}
+
+h1{
+    text-align: center;
+    color: #1e3a8a;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.card{
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.5);
+
+    border-radius: 25px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 10px 30px rgba(59,130,246,0.15),
+        0 5px 15px rgba(59,130,246,0.08);
+
+    transition: 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow:
+        0 15px 40px rgba(59,130,246,0.2),
+        0 10px 20px rgba(59,130,246,0.12);
+}
+
+.card p{
+    font-size: 1.1rem;
+    color: #1f2937;
+
+    background: #f8fbff;
+
+    padding: 18px 20px;
+
+    margin-bottom: 15px;
+
+    border-radius: 15px;
+
+    border-left: 5px solid #60a5fa;
+}
+
+.card p:last-child{
+    margin-bottom: 0;
+}
+
+.card span{
+    display: block;
+
+    color: #3b82f6;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+
+    margin-bottom: 5px;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.logout-btn{
+    width: 100%;
+    margin-top: 20px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #2563eb
+    );
+
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.logout-btn:hover{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(59,130,246,0.3);
+}
+
+.logout-btn:active{
+    transform: scale(0.98);
+}
+```css
+.info-box{
+    background: #f8fbff;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    border-left: 5px solid #60a5fa;
+}
+
+.email-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+#email{
+    color: #1f2937;
+    font-size: 1.1rem;
+}
+
+#toggleBtn{
+    border: none;
+    background: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+```
+
+
+</style>
+<body>
+<div class="container">
+    <h1>マイページ</h1>
+
+    <div class="card">
+
+        <p>
+            <span>ユーザー名</span>
+            <%= username %>
+        </p>
+
+        <div class="info-box">
+            <span>メールアドレス</span>
+
+            <div class="email-row">
+                <span id="email">**************</span>
+
+                <button type="button" id="toggleBtn">
+                    👁
+                </button>
+            </div>
+        </div>
+
+        <form action="/logout" method="POST">
+            <button type="submit" class="logout-btn">
+                ログアウト
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    const emailElement = document.getElementById("email");
+    const toggleBtn = document.getElementById("toggleBtn");
+
+    const realEmail = "<%= email %>";
+
+    let visible = false;
+
+    toggleBtn.addEventListener("click", () => {
+
+        visible = !visible;
+
+        if(visible){
+            emailElement.textContent = realEmail;
+            toggleBtn.textContent = "🙈";
+        }else{
+            emailElement.textContent = "**************";
+            toggleBtn.textContent = "👁";
+        }
+
+    });
+</script>
+
+</body>
+</html>

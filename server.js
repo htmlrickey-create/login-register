@@ -10,6 +10,10 @@ const app = express();
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
+//EJS設定
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 //session設定
 app.use(session({
     secret: "secret-key",
@@ -43,15 +47,14 @@ console.log("現在のフォルダ:", __dirname);
 
 //HTMLファイルの表示コード
 app.get("/", (req, res) => {
-    console.log("GET / にアクセスされた");
-    res.sendFile(path.join(__dirname, "assets", "index.html"));
+    res.render("index");
 });
 app.use(express.static(path.join(__dirname, "assets")));
 
 //新規登録処理
-app.post("/register", async(req, res) => {
-    console.log(req.body);
-    const {username, email, password} = req.body;
+app.post("/register", async (req, res) => {
+
+    const { username, email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -59,11 +62,25 @@ app.post("/register", async(req, res) => {
         "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
         [username, email, hashedPassword],
         (err) => {
-            console.error(err);
-           if(err) return res.send("登録失敗");
-           res.send("登録成功🚀");
+
+            if (err) {
+
+                if (err.code === "ER_DUP_ENTRY") {
+                    return res.send("ユーザー名またはメールアドレスが既に登録されています");
+                }
+
+                console.error(err);
+                return res.send("登録失敗");
+            }
+
+            res.render("mypage", {
+                username,
+                email
+            });
+
         }
     );
+
 });
 
 //ログイン機能処理
@@ -81,10 +98,16 @@ app.post("/login", (req, res) => {
             }
             const user = results[0];
 
+
+            if(results.length === 0){
+                return res.send("ユーザーが存在しません");
+            }
+
             const match = await bcrypt.compare(
                 password,
                 user.password
             );
+
 
             if(!match){
                 return res.send("パスワードが違います");
@@ -92,9 +115,24 @@ app.post("/login", (req, res) => {
 
             req.session.userId = user.id;
 
-            res.send("ログイン成功🚀");
+            res.render("mypage" ,{
+                username: user.username,
+                email: user.email
+            });
         }
     );
+});
+
+//ログアウト機能
+app.post("/logout", (req,res) => {
+    req.session.destroy((err)=>{
+
+        if(err){
+            return res.send("ログアウトに失敗しました");
+        }
+
+        res.redirect("/");
+    });
 });
 
 app.listen(5000, ()=>{
