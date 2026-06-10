@@ -229,3 +229,7 @@ body{
     color: #2563eb;
 }
 
+#error{
+    color: red;
+    font-size: 18px;
+}

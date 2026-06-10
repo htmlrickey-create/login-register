@@ -35,3 +35,32 @@ toggles.forEach(toggle => {
     });
 
 });
+
+document.getElementById("loginForm")
+.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email,
+            password
+        })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+        document.getElementById("error").textContent =
+            data.message;
+    } else {
+        window.location.href = data.redirect;
+    }
+});

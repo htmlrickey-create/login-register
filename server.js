@@ -91,16 +91,14 @@ app.post("/login", (req, res) => {
         "SELECT *FROM users WHERE email = ?",
         [email],
         async (err, results) => {
-            
-            if(err){
-                console.error(err);
-                return res.send("❔ユーザーが存在しません❔");
-            }
             const user = results[0];
 
 
             if(results.length === 0){
-                return res.send("ユーザーが存在しません");
+                return res.json({
+                    success: false,
+                    message: "ユーザーが存在しません"
+                })
             }
 
             const match = await bcrypt.compare(
@@ -110,12 +108,38 @@ app.post("/login", (req, res) => {
 
 
             if(!match){
-                return res.send("パスワードが違います");
+                return res.json({
+                    success: false,
+                    message: "パスワードが違います"
+                })
             }
 
             req.session.userId = user.id;
 
-            res.render("mypage" ,{
+
+            return res.json({
+                success: true,
+                redirect: "/mypage"
+            });
+        }
+    );
+});
+
+//マイページ用ルート
+app.get("/mypage", (req, res) => {
+
+    if (!req.session.userId) {
+        return res.redirect("/");
+    }
+
+    db.query(
+        "SELECT * FROM users WHERE id = ?",
+        [req.session.userId],
+        (err, results) => {
+
+            const user = results[0];
+
+            res.render("mypage", {
                 username: user.username,
                 email: user.email
             });
