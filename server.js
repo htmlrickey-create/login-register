@@ -22,15 +22,16 @@ app.use(session({
 }));
 
 //DB接続
-const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "login_register"
-});
+require("dotenv").config();
 
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
 //DB接続確認
-db.getConnection((err, connection) => {
+connection.connect((err) => {
     if(err){
         console.error("✖DB接続失敗✖");
         console.error(err);
@@ -38,8 +39,6 @@ db.getConnection((err, connection) => {
     }
 
     console.log("DB接続成功🚀");
-
-    connection.release();
 })
 
 console.log("現在のフォルダ:", __dirname);
@@ -58,7 +57,7 @@ app.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    db.query(
+    connection.query(
         "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
         [username, email, hashedPassword],
         (err) => {
@@ -87,7 +86,7 @@ app.post("/register", async (req, res) => {
 app.post("/login", (req, res) => {
     const {email, password} = req.body;
 
-    db.query(
+    connection.query(
         "SELECT *FROM users WHERE email = ?",
         [email],
         async (err, results) => {
@@ -132,7 +131,7 @@ app.get("/mypage", (req, res) => {
         return res.redirect("/");
     }
 
-    db.query(
+    connection.query(
         "SELECT * FROM users WHERE id = ?",
         [req.session.userId],
         (err, results) => {
